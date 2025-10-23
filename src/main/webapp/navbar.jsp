@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ page import="model.User" %>
+<%@ page import="com.moviereview.model.User" %>
 <%
     User navUser = (User) session.getAttribute("user");
     String currentPage = request.getRequestURI();
