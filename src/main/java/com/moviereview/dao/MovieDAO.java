@@ -8,9 +8,9 @@ import com.moviereview.util.DBConnection;
 
 public class MovieDAO {
     
-    // CREATE
+    // CREATE - Now includes poster_url
     public boolean addMovie(Movie movie) {
-        String sql = "INSERT INTO Movies (title, director, year, description) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Movies (title, director, year, description, poster_url) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
@@ -18,6 +18,7 @@ public class MovieDAO {
             stmt.setString(2, movie.getDirector());
             stmt.setInt(3, movie.getYear());
             stmt.setString(4, movie.getDescription());
+            stmt.setString(5, movie.getPosterUrl());
             
             int rows = stmt.executeUpdate();
             return rows > 0;
@@ -45,6 +46,7 @@ public class MovieDAO {
                 movie.setDirector(rs.getString("director"));
                 movie.setYear(rs.getInt("year"));
                 movie.setDescription(rs.getString("description"));
+                movie.setPosterUrl(rs.getString("poster_url")); // NEW
                 movie.setAvgRating(rs.getDouble("avg_rating"));
                 movie.setReviewCount(rs.getInt("review_count"));
                 movies.add(movie);
@@ -74,6 +76,7 @@ public class MovieDAO {
                 movie.setDirector(rs.getString("director"));
                 movie.setYear(rs.getInt("year"));
                 movie.setDescription(rs.getString("description"));
+                movie.setPosterUrl(rs.getString("poster_url")); // NEW
                 movie.setAvgRating(rs.getDouble("avg_rating"));
                 movie.setReviewCount(rs.getInt("review_count"));
                 return movie;
@@ -84,9 +87,9 @@ public class MovieDAO {
         return null;
     }
     
-    // UPDATE
+    // UPDATE - Now includes poster_url
     public boolean updateMovie(Movie movie) {
-        String sql = "UPDATE Movies SET title = ?, director = ?, year = ?, description = ? WHERE movie_id = ?";
+        String sql = "UPDATE Movies SET title = ?, director = ?, year = ?, description = ?, poster_url = ? WHERE movie_id = ?";
         try (Connection conn = DBConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
@@ -94,7 +97,8 @@ public class MovieDAO {
             stmt.setString(2, movie.getDirector());
             stmt.setInt(3, movie.getYear());
             stmt.setString(4, movie.getDescription());
-            stmt.setInt(5, movie.getMovieId());
+            stmt.setString(5, movie.getPosterUrl());
+            stmt.setInt(6, movie.getMovieId());
             
             int rows = stmt.executeUpdate();
             return rows > 0;
@@ -104,7 +108,7 @@ public class MovieDAO {
         return false;
     }
     
-    // DELETE
+    // DELETE - Unchanged
     public boolean deleteMovie(int movieId) {
         String sql = "DELETE FROM Movies WHERE movie_id = ?";
         try (Connection conn = DBConnection.getConnection();

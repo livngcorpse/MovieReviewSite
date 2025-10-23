@@ -64,12 +64,14 @@ public class MovieServlet extends HttpServlet {
         String director = request.getParameter("director");
         int year = Integer.parseInt(request.getParameter("year"));
         String description = request.getParameter("description");
+        String posterUrl = request.getParameter("posterUrl"); // NEW
         
         Movie movie = new Movie();
         movie.setTitle(title);
         movie.setDirector(director);
         movie.setYear(year);
         movie.setDescription(description);
+        movie.setPosterUrl(posterUrl); // NEW
         
         if ("add".equals(action)) {
             boolean success = movieDAO.addMovie(movie);
