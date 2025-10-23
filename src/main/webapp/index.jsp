@@ -13,7 +13,7 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md-8 text-center">
-                    <h1 class="display-3 mb-4">🎬 Movie Review Site</h1>
+                    <h1 class="display-3 mb-4">🎬CineReview Site</h1>
                     <p class="lead mb-5">Share your thoughts and discover amazing movies</p>
                     <div>
                         <a href="LoginServlet" class="btn btn-primary btn-lg me-3">Login</a>
