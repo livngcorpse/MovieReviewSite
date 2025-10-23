@@ -93,6 +93,14 @@
                                 <textarea class="form-control" id="description" name="description" rows="4" required><%= movie.getDescription() %></textarea>
                             </div>
                             
+                            <div class="mb-3">
+                                <label for="posterUrl" class="form-label">Poster URL (Optional)</label>
+                                <input type="url" class="form-control" id="posterUrl" name="posterUrl" 
+                                       value="<%= movie.getPosterUrl() != null ? movie.getPosterUrl() : "" %>" 
+                                       placeholder="https://example.com/poster.jpg">
+                                <small class="form-text text-muted">Enter a valid image URL for the movie poster</small>
+                            </div>
+                            
                             <div class="d-flex gap-2">
                                 <button type="submit" class="btn btn-primary">Update Movie</button>
                                 <a href="admin_dashboard.jsp" class="btn btn-secondary">Cancel</a>

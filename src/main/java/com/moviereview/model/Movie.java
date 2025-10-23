@@ -6,6 +6,7 @@ public class Movie {
     private String director;
     private int year;
     private String description;
+    private String posterUrl;  // NEW FIELD
     private double avgRating;
     private int reviewCount;
     
@@ -58,6 +59,14 @@ public class Movie {
     
     public void setDescription(String description) {
         this.description = description;
+    }
+    
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+    
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
     }
     
     public double getAvgRating() {
