@@ -13,39 +13,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container">
-            <a class="navbar-brand" href="<c:url value='/home.jsp'/>">🎬 CineReview</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="<c:url value='/home.jsp'/>">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<c:url value='/movie_list.jsp'/>">Movies</a>
-                    </li>
-                    <c:if test="${sessionScope.user.admin}">
-                        <li class="nav-item">
-                            <a class="nav-link" href="<c:url value='/admin_dashboard.jsp'/>">Dashboard</a>
-                        </li>
-                    </c:if>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <span class="navbar-text me-3">Welcome, <strong><c:out value="${sessionScope.user.username}"/></strong></span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="<c:url value='/LogoutServlet'/>">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    
+    <!-- Include Common Navigation Bar -->
+	<jsp:include page="navbar.jsp" />    
     <!-- Main Content -->
     <div class="container mt-5 fade-in">
         <!-- Hero Section -->

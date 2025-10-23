@@ -1,8 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="com.moviereview.dao.MovieDAO" %>
-<jsp:useBean id="movieDAO" class="com.moviereview.dao.MovieDAO" />
+<%@ page import="dao.MovieDAO" %>
+<jsp:useBean id="movieDAO" class="dao.MovieDAO" />
 <c:set var="movies" value="${movieDAO.allMovies}" />
 
 <!DOCTYPE html>
@@ -15,36 +15,8 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-        <div class="container">
-            <a class="navbar-brand" href="home.jsp">🎬 CineReview</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="home.jsp">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="movie_list.jsp">Movies</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="admin_dashboard.jsp">Admin Dashboard</a>
-                    </li>
-                </ul>
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <span class="navbar-text me-3">Welcome, <strong>${sessionScope.user.username}</strong></span>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="LogoutServlet">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- Include Common Navigation Bar -->
+	<jsp:include page="navbar.jsp" />
     
     <!-- Main Content -->
     <div class="container mt-4">
