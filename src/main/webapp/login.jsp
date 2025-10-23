@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,17 +18,19 @@
                         <div class="card-body p-5">
                             <h2 class="text-center mb-4">Login</h2>
                             
-                            <% if (request.getAttribute("success") != null) { %>
+                            <!-- Success Message -->
+                            <c:if test="${not empty requestScope.success}">
                                 <div class="alert alert-success" role="alert">
-                                    <%= request.getAttribute("success") %>
+                                    <c:out value="${requestScope.success}"/>
                                 </div>
-                            <% } %>
+                            </c:if>
                             
-                            <% if (request.getAttribute("error") != null) { %>
+                            <!-- Error Message -->
+                            <c:if test="${not empty requestScope.error}">
                                 <div class="alert alert-danger" role="alert">
-                                    <%= request.getAttribute("error") %>
+                                    <c:out value="${requestScope.error}"/>
                                 </div>
-                            <% } %>
+                            </c:if>
                             
                             <form action="LoginServlet" method="post">
                                 <div class="mb-3">

@@ -1,12 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.moviereview.model.User" %>
-<%
-    User user = (User) session.getAttribute("user");
-    if (user == null) {
-        response.sendRedirect("LoginServlet");
-        return;
-    }
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,30 +16,30 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
-            <a class="navbar-brand" href="home.jsp">🎬 CineReview</a>
+            <a class="navbar-brand" href="<c:url value='/home.jsp'/>">🎬 CineReview</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="home.jsp">Home</a>
+                        <a class="nav-link active" href="<c:url value='/home.jsp'/>">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="movie_list.jsp">Movies</a>
+                        <a class="nav-link" href="<c:url value='/movie_list.jsp'/>">Movies</a>
                     </li>
-                    <% if (user.isAdmin()) { %>
-                    <li class="nav-item">
-                        <a class="nav-link" href="admin_dashboard.jsp">Dashboard</a>
-                    </li>
-                    <% } %>
+                    <c:if test="${sessionScope.user.admin}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="<c:url value='/admin_dashboard.jsp'/>">Dashboard</a>
+                        </li>
+                    </c:if>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <span class="navbar-text me-3">Welcome, <strong><%= user.getUsername() %></strong></span>
+                        <span class="navbar-text me-3">Welcome, <strong><c:out value="${sessionScope.user.username}"/></strong></span>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="LogoutServlet">Logout</a>
+                        <a class="nav-link" href="<c:url value='/LogoutServlet'/>">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -62,10 +55,11 @@
                     <h1 class="display-3 mb-3" style="font-weight: 800;">Welcome to CineReview</h1>
                     <p class="lead mb-4" style="font-size: 1.25rem;">Discover amazing movies, share your thoughts, and connect with fellow film enthusiasts</p>
                     <div class="d-flex gap-3 justify-content-center flex-wrap">
-                        <a class="btn btn-light btn-lg px-4" href="movie_list.jsp" style="font-weight: 600;">
+                        <!-- URL Rewriting examples -->
+                        <a class="btn btn-light btn-lg px-4" href="${pageContext.request.contextPath}/movie_list.jsp;jsessionid=${pageContext.session.id}" style="font-weight: 600;">
                             🎥 Browse Movies
                         </a>
-                        <a class="btn btn-outline-light btn-lg px-4" href="movie_list.jsp" style="font-weight: 600;">
+                        <a class="btn btn-outline-light btn-lg px-4" href="<c:url value='/movie_list.jsp'/>" style="font-weight: 600;">
                             ✍️ Write Review
                         </a>
                     </div>
@@ -81,7 +75,7 @@
                         <div class="display-1 mb-3">🎬</div>
                         <h4 class="card-title mb-3">Extensive Collection</h4>
                         <p class="card-text text-muted">Explore our curated selection of movies spanning all genres and eras</p>
-                        <a href="movie_list.jsp" class="btn btn-outline-primary mt-2">View All Movies</a>
+                        <a href="<c:url value='/movie_list.jsp'/>" class="btn btn-outline-primary mt-2">View All Movies</a>
                     </div>
                 </div>
             </div>
@@ -92,7 +86,7 @@
                         <div class="display-1 mb-3">⭐</div>
                         <h4 class="card-title mb-3">Rate & Review</h4>
                         <p class="card-text text-muted">Share your honest opinions and discover what others think</p>
-                        <a href="movie_list.jsp" class="btn btn-outline-primary mt-2">Start Rating</a>
+                        <a href="<c:url value='/movie_list.jsp'/>" class="btn btn-outline-primary mt-2">Start Rating</a>
                     </div>
                 </div>
             </div>
@@ -103,11 +97,11 @@
                         <div class="display-1 mb-3">👥</div>
                         <h4 class="card-title mb-3">Join Community</h4>
                         <p class="card-text text-muted">Connect with fellow movie lovers and engage in discussions</p>
-                        <a href="movie_list.jsp" class="btn btn-outline-primary mt-2">Get Started</a>
+                        <a href="<c:url value='/movie_list.jsp'/>" class="btn btn-outline-primary mt-2">Get Started</a>
                     </div>
                 </div>
             </div>
-         </div>
+        </div>
     </div>
     
     <!-- Footer -->

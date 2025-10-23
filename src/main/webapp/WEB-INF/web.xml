@@ -7,13 +7,46 @@
          
   <display-name>MovieReviewSite</display-name>
   
+  <!-- Welcome File List -->
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
+    
+  <!-- Filter Declarations -->
+  <filter>
+    <filter-name>AuthenticationFilter</filter-name>
+    <filter-class>com.moviereview.filter.AuthenticationFilter</filter-class>
+  </filter>
+  
+  <filter>
+    <filter-name>AdminFilter</filter-name>
+    <filter-class>com.moviereview.filter.AdminFilter</filter-class>
+  </filter>
+  
+  <!-- Filter Mappings -->
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
+    <url-pattern>/home.jsp</url-pattern>
+    <url-pattern>/movie_list.jsp</url-pattern>
+    <url-pattern>/MovieDetailsServlet</url-pattern>
+    <url-pattern>/ReviewServlet</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>AdminFilter</filter-name>
+    <url-pattern>/admin_dashboard.jsp</url-pattern>
+    <url-pattern>/add_movie.jsp</url-pattern>
+    <url-pattern>/edit_movie.jsp</url-pattern>
+    <url-pattern>/MovieServlet</url-pattern>
+  </filter-mapping>
   
   <!-- Session Configuration -->
   <session-config>
     <session-timeout>30</session-timeout>
+    <cookie-config>
+      <http-only>true</http-only>
+    </cookie-config>
   </session-config>
   
   <!-- Error Pages -->
@@ -24,6 +57,11 @@
   
   <error-page>
     <error-code>500</error-code>
+    <location>/index.jsp</location>
+  </error-page>
+  
+  <error-page>
+    <error-code>403</error-code>
     <location>/index.jsp</location>
   </error-page>
 </web-app>

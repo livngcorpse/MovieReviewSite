@@ -1,15 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.moviereview.model.User, com.moviereview.model.Movie, com.moviereview.dao.MovieDAO, java.util.List" %>
-<%
-    User user = (User) session.getAttribute("user");
-    if (user == null) {
-        response.sendRedirect("LoginServlet");
-        return;
-    }
-    
-    MovieDAO movieDAO = new MovieDAO();
-    List<Movie> movies = movieDAO.getAllMovies();
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.moviereview.dao.MovieDAO" %>
+<jsp:useBean id="movieDAO" class="com.moviereview.dao.MovieDAO" />
+<c:set var="movies" value="${movieDAO.allMovies}" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +18,7 @@
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="home.jsp">🎬  CineReview</a>
+            <a class="navbar-brand" href="home.jsp">🎬 CineReview</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -35,15 +30,15 @@
                     <li class="nav-item">
                         <a class="nav-link active" href="movie_list.jsp">Movies</a>
                     </li>
-                    <% if (user.isAdmin()) { %>
-                    <li class="nav-item">
-                        <a class="nav-link" href="admin_dashboard.jsp">Admin Dashboard</a>
-                    </li>
-                    <% } %>
+                    <c:if test="${sessionScope.user.admin}">
+                        <li class="nav-item">
+                            <a class="nav-link" href="admin_dashboard.jsp">Admin Dashboard</a>
+                        </li>
+                    </c:if>
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <span class="navbar-text me-3">Welcome, <strong><%= user.getUsername() %></strong></span>
+                        <span class="navbar-text me-3">Welcome, <strong>${sessionScope.user.username}</strong></span>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="LogoutServlet">Logout</a>
@@ -58,42 +53,48 @@
         <h2 class="mb-4">All Movies</h2>
         
         <div class="row">
-            <% if (movies.isEmpty()) { %>
-                <div class="col-12">
-                    <div class="alert alert-info">No movies available yet.</div>
-                </div>
-            <% } else {
-                for (Movie movie : movies) { %>
-                    <div class="col-md-6 col-lg-4 mb-4">
-                        <div class="card h-100 shadow-sm">
-                            <div class="card-body">
-                                <h5 class="card-title"><%= movie.getTitle() %></h5>
-                                <h6 class="card-subtitle mb-2 text-muted">
-                                    Director: <%= movie.getDirector() %> (<%= movie.getYear() %>)
-                                </h6>
-                                <p class="card-text"><%= movie.getDescription() %></p>
-                                
-                                <div class="mb-3">
-                                    <% if (movie.getReviewCount() > 0) { %>
-                                        <span class="badge bg-warning text-dark">
-                                            ⭐ <%= String.format("%.1f", movie.getAvgRating()) %>/5
-                                        </span>
-                                        <span class="badge bg-secondary">
-                                            <%= movie.getReviewCount() %> Reviews
-                                        </span>
-                                    <% } else { %>
-                                        <span class="badge bg-secondary">No reviews yet</span>
-                                    <% } %>
+            <c:choose>
+                <c:when test="${empty movies}">
+                    <div class="col-12">
+                        <div class="alert alert-info">No movies available yet.</div>
+                    </div>
+                </c:when>
+                <c:otherwise>
+                    <c:forEach var="movie" items="${movies}">
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title"><c:out value="${movie.title}"/></h5>
+                                    <h6 class="card-subtitle mb-2 text-muted">
+                                        Director: <c:out value="${movie.director}"/> (<c:out value="${movie.year}"/>)
+                                    </h6>
+                                    <p class="card-text"><c:out value="${movie.description}"/></p>
+                                    
+                                    <div class="mb-3">
+                                        <c:choose>
+                                            <c:when test="${movie.reviewCount > 0}">
+                                                <span class="badge bg-warning text-dark">
+                                                    ⭐ <fmt:formatNumber value="${movie.avgRating}" pattern="0.0"/>/5
+                                                </span>
+                                                <span class="badge bg-secondary">
+                                                    ${movie.reviewCount} Reviews
+                                                </span>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <span class="badge bg-secondary">No reviews yet</span>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </div>
+                                    
+                                    <a href="MovieDetailsServlet?id=${movie.movieId}" class="btn btn-primary btn-sm">
+                                        View Details & Reviews
+                                    </a>
                                 </div>
-                                
-                                <a href="MovieDetailsServlet?id=<%= movie.getMovieId() %>" class="btn btn-primary btn-sm">
-                                    View Details & Reviews
-                                </a>
                             </div>
                         </div>
-                    </div>
-                <% }
-            } %>
+                    </c:forEach>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
     

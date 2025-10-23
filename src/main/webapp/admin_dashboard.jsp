@@ -1,15 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="com.moviereview.model.User, com.moviereview.model.Movie, com.moviereview.dao.MovieDAO, java.util.List" %>
-<%
-    User user = (User) session.getAttribute("user");
-    if (user == null || !user.isAdmin()) {
-        response.sendRedirect("home.jsp");
-        return;
-    }
-    
-    MovieDAO movieDAO = new MovieDAO();
-    List<Movie> movies = movieDAO.getAllMovies();
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ page import="com.moviereview.dao.MovieDAO" %>
+<jsp:useBean id="movieDAO" class="com.moviereview.dao.MovieDAO" />
+<c:set var="movies" value="${movieDAO.allMovies}" />
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -41,7 +36,7 @@
                 </ul>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <span class="navbar-text me-3">Welcome, <strong><%= user.getUsername() %></strong></span>
+                        <span class="navbar-text me-3">Welcome, <strong>${sessionScope.user.username}</strong></span>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="LogoutServlet">Logout</a>
@@ -58,12 +53,12 @@
             <a href="add_movie.jsp" class="btn btn-success">+ Add New Movie</a>
         </div>
         
-        <% if (request.getParameter("success") != null) { %>
+        <c:if test="${param.success eq 'updated'}">
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 Movie updated successfully!
                 <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
             </div>
-        <% } %>
+        </c:if>
         
         <div class="card">
             <div class="card-body">
@@ -81,37 +76,41 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <% if (movies.isEmpty()) { %>
-                                <tr>
-                                    <td colspan="7" class="text-center">No movies found.</td>
-                                </tr>
-                            <% } else {
-                                for (Movie movie : movies) { %>
+                            <c:choose>
+                                <c:when test="${empty movies}">
                                     <tr>
-                                        <td><%= movie.getMovieId() %></td>
-                                        <td><%= movie.getTitle() %></td>
-                                        <td><%= movie.getDirector() %></td>
-                                        <td><%= movie.getYear() %></td>
-                                        <td>
-                                            <% if (movie.getReviewCount() > 0) { %>
-                                                ⭐ <%= String.format("%.1f", movie.getAvgRating()) %>
-                                            <% } else { %>
-                                                -
-                                            <% } %>
-                                        </td>
-                                        <td><%= movie.getReviewCount() %></td>
-                                        <td>
-                                            <a href="MovieDetailsServlet?id=<%= movie.getMovieId() %>" class="btn btn-sm btn-info">View</a>
-                                            <a href="MovieServlet?action=edit&id=<%= movie.getMovieId() %>" class="btn btn-sm btn-warning">Edit</a>
-                                            <a href="MovieServlet?action=delete&id=<%= movie.getMovieId() %>" 
-                                               class="btn btn-sm btn-danger" 
-                                               onclick="return confirm('Are you sure you want to delete this movie? All reviews will be deleted too.');">
-                                                Delete
-                                            </a>
-                                        </td>
+                                        <td colspan="7" class="text-center">No movies found.</td>
                                     </tr>
-                                <% }
-                            } %>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:forEach var="movie" items="${movies}">
+                                        <tr>
+                                            <td>${movie.movieId}</td>
+                                            <td><c:out value="${movie.title}"/></td>
+                                            <td><c:out value="${movie.director}"/></td>
+                                            <td>${movie.year}</td>
+                                            <td>
+                                                <c:choose>
+                                                    <c:when test="${movie.reviewCount > 0}">
+                                                        ⭐ <fmt:formatNumber value="${movie.avgRating}" pattern="0.0"/>
+                                                    </c:when>
+                                                    <c:otherwise>-</c:otherwise>
+                                                </c:choose>
+                                            </td>
+                                            <td>${movie.reviewCount}</td>
+                                            <td>
+                                                <a href="MovieDetailsServlet?id=${movie.movieId}" class="btn btn-sm btn-info">View</a>
+                                                <a href="MovieServlet?action=edit&id=${movie.movieId}" class="btn btn-sm btn-warning">Edit</a>
+                                                <a href="MovieServlet?action=delete&id=${movie.movieId}" 
+                                                   class="btn btn-sm btn-danger" 
+                                                   onclick="return confirm('Are you sure you want to delete this movie? All reviews will be deleted too.');">
+                                                    Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </c:otherwise>
+                            </c:choose>
                         </tbody>
                     </table>
                 </div>
