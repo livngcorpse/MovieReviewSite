@@ -1,37 +1,39 @@
+/* Cinephile Dark Theme - (Replaces "Modern Movie Review") */
+
 :root {
-    /* Primary Color Scheme - Cosmic Dark & Neon Accents */
-    --primary-color: #7c3aed; /* Vibrant Purple */
-    --primary-dark: #5b21b6;
-    --primary-light: #a78bfa;
-    --accent-color: #06b6d4; /* Neon Cyan */
-    --accent-hover: #0e7490;
+    /* Primary Color Scheme - Dark & Amber/Gold */
+    --primary-color: #eab308; /* Amber/Gold */
+    --primary-dark: #ca8a04;
+    --primary-light: #fde047;
+    --accent-color: #dc2626;  /* Cinematic Red */
+    --accent-hover: #b91c1c;
     
-    /* Status Colors */
-    --success-color: #22c55e;
-    --danger-color: #ef4444;
-    --warning-color: #facc15;
-    --info-color: #3b82f6;
+    /* Status Colors (Unchanged, but used differently) */
+    --success-color: #16a34a;
+    --danger-color: #dc2626;
+    --warning-color: #f59e0b;
+    --info-color: #0ea5e9;
     
-    /* Neutral Palette */
-    --bg-main: #0f172a; /* Dark Slate */
-    --bg-card: #1e293b;
-    --bg-secondary: #334155;
-    --text-primary: #f1f5f9;
-    --text-secondary: #cbd5e1;
-    --text-muted: #94a3b8;
-    --border-color: #475569;
+    /* Neutral Palette (Dark Mode) */
+    --bg-main: #111827;      /* Deep Dark Blue/Gray */
+    --bg-card: #1f2937;      /* Dark Gray */
+    --bg-secondary: #374151; /* Medium Dark Gray */
+    --text-primary: #f9fafb;   /* Off-white */
+    --text-secondary: #d1d5db; /* Light Gray */
+    --text-muted: #9ca3af;     /* Medium Gray */
+    --border-color: #4b5563;   /* Gray Border */
     
-    /* Shadows */
-    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 6px 12px rgba(0, 0, 0, 0.4);
-    --shadow-lg: 0 12px 24px rgba(0, 0, 0, 0.5);
-    --shadow-xl: 0 24px 36px rgba(0, 0, 0, 0.6);
+    /* Shadows (Less intense for dark mode) */
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.1);
     
-    /* Border Radius */
-    --radius-sm: 0.5rem;
-    --radius-md: 0.75rem;
-    --radius-lg: 1rem;
-    --radius-xl: 1.5rem;
+    /* Border Radius (Slightly sharper) */
+    --radius-sm: 0.25rem;
+    --radius-md: 0.375rem;
+    --radius-lg: 0.5rem;
+    --radius-xl: 0.75rem;
 }
 
 * {
@@ -41,29 +43,30 @@
 }
 
 body {
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
-    background-color: var(--bg-main);
-    color: var(--text-primary);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+    background-color: var(--bg-main) !important; /* <-- FIX: Forces dark background */
+    color: var(--text-primary) !important;     /* <-- FIX: Forces light text */
     line-height: 1.6;
 }
 
 /* ========== NAVBAR ========== */
 .navbar {
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 100%) !important;
+    background: var(--bg-card) !important;
     box-shadow: var(--shadow-md);
     padding: 1rem 0;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .navbar-brand {
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: var(--text-primary) !important;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary-color) !important; /* Gold Brand */
     letter-spacing: -0.5px;
 }
 
 .navbar-nav .nav-link {
     color: var(--text-secondary) !important;
-    font-weight: 600;
+    font-weight: 500;
     padding: 0.5rem 1rem !important;
     margin: 0 0.25rem;
     border-radius: var(--radius-md);
@@ -71,13 +74,13 @@ body {
 }
 
 .navbar-nav .nav-link:hover {
-    background-color: var(--accent-color);
+    background-color: var(--bg-secondary);
     color: var(--text-primary) !important;
 }
 
 .navbar-nav .nav-link.active {
-    background-color: var(--accent-hover);
-    color: var(--text-primary) !important;
+    background-color: var(--bg-secondary);
+    color: var(--primary-color) !important; /* Active link is gold */
 }
 
 .navbar-text {
@@ -92,7 +95,7 @@ body {
 .card {
     border: 1px solid var(--border-color);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
+    box-shadow: none; /* No shadow by default in dark mode */
     background-color: var(--bg-card);
     transition: all 0.3s ease;
     overflow: hidden;
@@ -100,15 +103,16 @@ body {
 
 .card:hover {
     box-shadow: var(--shadow-md);
-    transform: translateY(-3px);
+    transform: translateY(-2px);
+    border-color: var(--primary-color); /* Highlight on hover */
 }
 
 .card-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    background: var(--bg-secondary); /* Dark header */
     color: var(--text-primary);
-    border-bottom: none;
+    border-bottom: 1px solid var(--border-color);
     padding: 1.25rem 1.5rem;
-    font-weight: 700;
+    font-weight: 600;
 }
 
 .card-header h4,
@@ -124,44 +128,44 @@ body {
 .card-title {
     color: var(--text-primary);
     font-weight: 700;
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     margin-bottom: 0.5rem;
 }
 
 .card-subtitle {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
+    color: var(--text-muted);
+    font-size: 0.95rem;
     margin-bottom: 1rem;
 }
 
 .card-text {
     color: var(--text-secondary);
-    line-height: 1.8;
+    line-height: 1.7;
 }
 
 /* ========== BUTTONS ========== */
 .btn {
     border-radius: var(--radius-md);
     font-weight: 600;
-    padding: 0.75rem 1.75rem;
+    padding: 0.625rem 1.5rem;
     border: none;
     transition: all 0.3s ease;
-    box-shadow: var(--shadow-sm);
+    box-shadow: none;
 }
 
 .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+    transform: translateY(-1px);
+    filter: brightness(110%); /* Brighter on hover */
 }
 
 .btn-primary {
     background-color: var(--primary-color);
-    color: var(--text-primary);
+    color: #000000; /* Gold button needs BLACK text */
 }
 
 .btn-primary:hover {
     background-color: var(--primary-dark);
-    color: var(--text-primary);
+    color: #000000;
 }
 
 .btn-secondary {
@@ -170,48 +174,48 @@ body {
 }
 
 .btn-secondary:hover {
-    background-color: #475569;
+    background-color: var(--border-color);
     color: var(--text-primary);
 }
 
 .btn-success {
     background-color: var(--success-color);
-    color: var(--text-primary);
+    color: #ffffff;
 }
 
 .btn-success:hover {
     background-color: #15803d;
-    color: var(--text-primary);
+    color: #ffffff;
 }
 
 .btn-danger {
     background-color: var(--danger-color);
-    color: var(--text-primary);
+    color: #ffffff;
 }
 
 .btn-danger:hover {
     background-color: #b91c1c;
-    color: var(--text-primary);
+    color: #ffffff;
 }
 
 .btn-warning {
     background-color: var(--warning-color);
-    color: var(--text-primary);
+    color: #000000; /* Yellow button needs BLACK text */
 }
 
 .btn-warning:hover {
     background-color: #d97706;
-    color: var(--text-primary);
+    color: #000000;
 }
 
 .btn-info {
     background-color: var(--info-color);
-    color: var(--text-primary);
+    color: #ffffff;
 }
 
 .btn-info:hover {
     background-color: #0284c7;
-    color: var(--text-primary);
+    color: #ffffff;
 }
 
 .btn-outline-primary {
@@ -222,126 +226,147 @@ body {
 
 .btn-outline-primary:hover {
     background-color: var(--primary-color);
-    color: var(--text-primary);
+    color: #000000; /* BLACK text on hover */
 }
 
 .btn-outline-light {
-    border: 2px solid var(--text-primary);
+    border: 2px solid var(--border-color);
     color: var(--text-primary);
     background: transparent;
 }
 
 .btn-outline-light:hover {
     background-color: var(--text-primary);
-    color: var(--primary-dark);
+    color: var(--bg-main); /* Dark text on hover */
 }
 
 .btn-light {
-    background-color: var(--text-primary);
-    color: var(--primary-dark);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
 }
 
 .btn-light:hover {
-    background-color: var(--text-secondary);
-    color: var(--primary-dark);
+    background-color: var(--border-color);
+    color: var(--text-primary);
 }
 
 .btn-lg {
-    padding: 1rem 2.25rem;
-    font-size: 1.15rem;
+    padding: 0.875rem 2rem;
+    font-size: 1.1rem;
 }
 
 .btn-sm {
-    padding: 0.5rem 1.25rem;
-    font-size: 0.85rem;
+    padding: 0.375rem 1rem;
+    font-size: 0.875rem;
 }
 
 /* ========== FORMS ========== */
-/* Form Control Styling Fix */
 .form-control,
 .form-select {
     border: 2px solid var(--border-color);
     border-radius: var(--radius-md);
     padding: 0.75rem 1rem;
     transition: all 0.3s ease;
-    background-color: #1e293b; /* Slightly lighter dark background for contrast */
-    color: #2dd4bf !important; /* Dark teal for visible text while typing */
-    caret-color: #34d399; /* Matching caret color for consistency */
+    background-color: var(--bg-main); /* Dark input */
+    color: var(--text-primary);
 }
 
 .form-control:focus,
 .form-select:focus {
-    border-color: var(--accent-color); /* Neon cyan for focus highlight */
-    box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.2);
-    background-color: #1e293b; /* Maintain background on focus */
-    color: #2dd4bf !important; /* Ensure text remains visible on focus */
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.25); /* Gold focus ring */
+    background-color: var(--bg-card);
     outline: none;
+    color: var(--text-primary) !important; /* <-- FIX: Makes typed text visible */
 }
 
-.form-control::placeholder,
-.form-select::placeholder {
-    color: #94a3b8; /* Muted color for placeholder text */
-    opacity: 1; /* Ensure placeholder is visible */
+.form-control::placeholder {
+    color: var(--text-muted);
+    opacity: 1;
 }
 
 .form-label {
     font-weight: 600;
-    color: #34d399; /* Dark green for labels */
+    color: var(--text-secondary);
     margin-bottom: 0.5rem;
 }
 
 .form-check-input {
     border: 2px solid var(--border-color);
+    background-color: var(--bg-main);
 }
 
 .form-check-input:checked {
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .form-check-label {
-    color: #94a3b8; /* Muted color for check labels */
+    color: var(--text-secondary);
+}
+
+/* ========== BADGES ========== */
+.badge {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: var(--radius-xl); /* Pill shape */
+}
+
+.badge.bg-warning {
+    background-color: var(--warning-color) !important;
+    color: #000000 !important; /* BLACK text on yellow */
+}
+
+.badge.bg-secondary {
+    background-color: var(--bg-secondary) !important;
+    color: var(--text-primary) !important;
+}
+
+.badge.text-dark {
+    color: #000000 !important; /* For use on light-colored custom badges */
 }
 
 /* ========== ALERTS ========== */
 .alert {
     border: none;
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius-md);
     padding: 1rem 1.5rem;
     border-left: 4px solid;
 }
 
 .alert-success {
-    background-color: rgba(34, 197, 94, 0.1);
-    color: var(--success-color);
+    background-color: #064e3b; /* Dark Green */
+    color: #a7f3d0;
     border-left-color: var(--success-color);
 }
 
 .alert-danger {
-    background-color: rgba(239, 68, 68, 0.1);
-    color: var(--danger-color);
+    background-color: #450a0a; /* Dark Red */
+    color: #fecaca;
     border-left-color: var(--danger-color);
 }
 
 .alert-info {
-    background-color: rgba(59, 130, 246, 0.1);
-    color: var(--info-color);
+    background-color: #1e3a8a; /* Dark Blue */
+    color: #bfdbfe;
     border-left-color: var(--info-color);
 }
 
 /* ========== JUMBOTRON ========== */
 .jumbotron {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%) !important;
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%) !important;
     color: var(--text-primary) !important;
     border-radius: var(--radius-xl);
-    padding: 3.5rem 2.5rem;
+    padding: 3rem 2rem;
     box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-color);
 }
 
 .jumbotron .display-3 {
-    color: var(--text-primary);
-    font-weight: 900;
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    color: var(--primary-color); /* Gold title */
+    font-weight: 800;
+    text-shadow: none;
 }
 
 .jumbotron .lead {
@@ -360,8 +385,8 @@ body {
 
 .review-item:hover {
     background-color: var(--bg-secondary);
-    border-color: var(--accent-color) !important;
-    box-shadow: var(--shadow-md);
+    border-color: var(--primary-color) !important;
+    box-shadow: var(--shadow-sm);
 }
 
 .review-item h6 {
@@ -375,65 +400,106 @@ body {
 
 /* ========== TABLES ========== */
 .table {
-    background-color: var(--bg-card);
+    background-color: var(--bg-card) !important; /* Force dark background on table */
     border-radius: var(--radius-lg);
     overflow: hidden;
+    color: var(--text-secondary) !important; /* Default text color for table */
 }
 
 .table thead {
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-secondary) !important; /* Force dark header background */
 }
 
 .table thead th {
     font-weight: 700;
-    color: var(--text-primary);
-    border-bottom: 2px solid var(--border-color);
+    color: var(--text-primary) !important; /* Force light header text */
+    background-color: var(--bg-secondary) !important; /* Force dark header cell background */
+    border-bottom: 2px solid var(--border-color) !important;
     padding: 1rem;
 }
 
 .table tbody tr {
     transition: background-color 0.2s ease;
+    background-color: var(--bg-card) !important; /* Force dark row background */
+    border-bottom: 1px solid var(--border-color) !important;
 }
 
 .table tbody tr:hover {
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-secondary) !important; /* Keep dark hover */
 }
 
 .table tbody td {
-    color: var(--text-secondary);
+    color: var(--text-secondary) !important; /* Force light row text */
+    background-color: inherit !important; /* Inherit the row's background */
     padding: 1rem;
     vertical-align: middle;
 }
 
-/* ========== LANDING PAGE ========== */
+/* This is a specific override for Bootstrap's common classes */
+.table-light,
+.table-light > th,
+.table-light > td,
+.table-striped tbody tr:nth-of-type(odd),
+.table-striped tbody tr:nth-of-type(odd) > td,
+.table-striped tbody tr:nth-of-type(odd) > th {
+    background-color: var(--bg-card) !important;
+    color: var(--text-secondary) !important;
+    border-color: var(--border-color) !important;
+}
+
+.table-light th,
+.table-striped thead th {
+    color: var(--text-primary) !important;
+    background-color: var(--bg-secondary) !imporant;
+    border-color: var(--border-color) !important;
+}
+
+/* =================================================
+   == START: AGGRESSIVE BG-LIGHT FIX V3           ==
+   =================================================
+*/
 .min-vh-100 {
     min-height: 100vh;
 }
 
-.min-vh-100.bg-light {
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent-color) 100%);
+/* THIS IS THE FIX:
+  Overrides Bootstrap's .bg-light class which is causing the
+  white background and making text invisible.
+*/
+.bg-light {
+    background: var(--bg-main) !important;
+    background-color: var(--bg-main) !important;
+    color: var(--text-primary) !important;
 }
 
 .landing-card {
-    background-color: rgba(30, 41, 59, 0.95);
-    backdrop-filter: blur(12px);
+    background-color: var(--bg-card);
+    backdrop-filter: blur(0);
+    border: 1px solid var(--border-color);
 }
+/* =================================================
+   == END: AGGRESSIVE BG-LIGHT FIX V3             ==
+   =================================================
+*/
+
 
 /* ========== FEATURE CARDS ========== */
 .feature-card {
     border: 2px solid var(--border-color);
     border-radius: var(--radius-xl);
     transition: all 0.3s ease;
+    background-color: var(--bg-card);
 }
 
 .feature-card:hover {
-    border-color: var(--accent-color);
+    border-color: var(--primary-color);
     box-shadow: var(--shadow-lg);
 }
 
 .feature-card .display-1 {
-    font-size: 4.5rem;
+    font-size: 4rem;
     line-height: 1;
+    color: var(--primary-color); /* Gold icon/number */
 }
 
 .feature-card .card-title {
@@ -446,17 +512,17 @@ body {
 
 /* ========== MODAL ========== */
 .modal-content {
-    border: none;
+    border: 1px solid var(--border-color);
     border-radius: var(--radius-xl);
     box-shadow: var(--shadow-xl);
     background-color: var(--bg-card);
 }
 
 .modal-header {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--accent-color) 100%);
+    background: var(--bg-secondary);
     color: var(--text-primary);
     border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-    border-bottom: none;
+    border-bottom: 1px solid var(--border-color);
     padding: 1.5rem;
 }
 
@@ -467,20 +533,21 @@ body {
 
 .modal-body {
     padding: 2rem;
+    color: var(--text-secondary);
 }
 
 .modal-footer {
-    border-top: 2px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
     padding: 1.5rem;
 }
 
 .btn-close {
-    filter: brightness(0) invert(1);
+    filter: invert(1) grayscale(1) brightness(2); /* White close button */
 }
 
 /* ========== TEXT COLORS ========== */
 .text-primary {
-    color: var(--text-primary) !important;
+    color: var(--primary-color) !important; /* Gold text */
 }
 
 .text-secondary {
@@ -515,28 +582,28 @@ body {
 /* ========== RESPONSIVE ========== */
 @media (max-width: 768px) {
     .navbar-brand {
-        font-size: 1.3rem;
+        font-size: 1.25rem;
     }
     
     .card-body {
-        padding: 1rem;
+        padding: 1.25rem;
     }
     
     .jumbotron {
-        padding: 2.5rem 1.5rem;
+        padding: 2rem 1.5rem;
     }
     
     .jumbotron .display-3 {
-        font-size: 2.25rem;
+        font-size: 2.5rem;
     }
     
     .feature-card .display-1 {
-        font-size: 3.5rem;
+        font-size: 3rem;
     }
     
     .btn-lg {
-        padding: 0.875rem 1.75rem;
-        font-size: 1.05rem;
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
     }
 }
 
@@ -544,7 +611,7 @@ body {
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: translateY(15px);
+        transform: translateY(20px);
     }
     to {
         opacity: 1;
@@ -553,12 +620,12 @@ body {
 }
 
 .fade-in {
-    animation: fadeIn 0.6s ease forwards;
+    animation: fadeIn 0.5s ease forwards;
 }
 
 /* ========== SCROLLBAR ========== */
 ::-webkit-scrollbar {
-    width: 12px;
+    width: 10px;
 }
 
 ::-webkit-scrollbar-track {
@@ -566,56 +633,10 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: var(--accent-color);
+    background: var(--bg-secondary);
     border-radius: var(--radius-md);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-hover);
-}
-
-/* Table Styling with Darker Text and Highlight */
-.table {
-    background-color: var(--bg-card) !important; /* Dark gray background */
-    color: #2dd4bf !important; /* Dark teal for body text */
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 2px solid var(--accent-color) !important; /* Highlight with neon cyan border */
-    background: linear-gradient(135deg, #1e293b 0%, #1e3a8a 100%) !important; /* Gradient for highlight */
-}
-
-.table thead {
-    background-color: var(--primary-dark) !important; /* Dark purple for header */
-}
-
-.table thead th {
-    color: #34d399 !important; /* Dark green for header text */
-    border-bottom: 2px solid var(--accent-color) !important;
-    padding: 1rem;
-    font-weight: 700;
-}
-
-.table tbody td {
-    color: #2dd4bf !important; /* Dark teal for body text */
-    padding: 1rem;
-    vertical-align: middle;
-}
-
-.table tbody tr {
-    transition: all 0.3s ease;
-}
-
-.table tbody tr:hover {
-    background-color: #164e63 !important; /* Darker teal for hover effect */
-    color: #ffffff !important; /* White text on hover for contrast */
-}
-
-/* Ensure Bootstrap overrides are neutralized */
-.table-white {
-    background-color: transparent !important;
-}
-
-.table th,
-.table td {
-    border-color: var(--border-color) !important;
+    background: var(--primary-color);
 }
