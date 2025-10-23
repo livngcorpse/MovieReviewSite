@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,21 +16,37 @@
 </head>
 <body>
     <!-- Include Common Navigation Bar -->
-	<jsp:include page="navbar.jsp" />    
+    <jsp:include page="navbar.jsp" />    
+    
     <!-- Main Content -->
     <div class="container mt-5 fade-in">
         <!-- Hero Section -->
         <div class="row mb-5">
             <div class="col-12">
                 <div class="jumbotron text-center">
-                    <h1 class="display-3 mb-3" style="font-weight: 800;">Welcome to CineReview</h1>
-                    <p class="lead mb-4" style="font-size: 1.25rem;">Discover amazing movies, share your thoughts, and connect with fellow film enthusiasts</p>
+                    <h1 class="display-3 mb-3" style="font-weight: 800;">
+                        Welcome to CineReview
+                        <c:if test="${not empty sessionScope.username}">
+                            , <c:out value="${fn:toUpperCase(sessionScope.username)}"/>
+                        </c:if>
+                    </h1>
+                    <p class="lead mb-4" style="font-size: 1.25rem;">
+                        Discover amazing movies, share your thoughts, and connect with fellow film enthusiasts
+                    </p>
+                    
+                    <!-- URL REWRITING: Using c:url tag -->
                     <div class="d-flex gap-3 justify-content-center flex-wrap">
-                        <!-- URL Rewriting examples -->
-                        <a class="btn btn-light btn-lg px-4" href="${pageContext.request.contextPath}/movie_list.jsp;jsessionid=${pageContext.session.id}" style="font-weight: 600;">
+                        <c:url var="movieListUrl" value="movie_list.jsp">
+                            <c:param name="source" value="home"/>
+                        </c:url>
+                        <a class="btn btn-light btn-lg px-4" href="${movieListUrl}" style="font-weight: 600;">
                             🎥 Browse Movies
                         </a>
-                        <a class="btn btn-outline-light btn-lg px-4" href="<c:url value='/movie_list.jsp'/>" style="font-weight: 600;">
+                        
+                        <!-- URL with jsessionid -->
+                        <a class="btn btn-outline-light btn-lg px-4" 
+                           href="movie_list.jsp;jsessionid=${pageContext.session.id}?action=review" 
+                           style="font-weight: 600;">
                             ✍️ Write Review
                         </a>
                     </div>
@@ -36,37 +54,66 @@
             </div>
         </div>
         
-        <!-- Feature Cards -->
+        <!-- Feature Cards with JSTL -->
+        <c:set var="features" value="🎬,Extensive Collection,Explore our curated selection of movies spanning all genres and eras|⭐,Rate & Review,Share your honest opinions and discover what others think|👥,Join Community,Connect with fellow movie lovers and engage in discussions" />
+        
         <div class="row g-4 mb-5">
-            <div class="col-md-4">
-                <div class="card feature-card text-center">
-                    <div class="card-body p-4">
-                        <div class="display-1 mb-3">🎬</div>
-                        <h4 class="card-title mb-3">Extensive Collection</h4>
-                        <p class="card-text text-muted">Explore our curated selection of movies spanning all genres and eras</p>
-                        <a href="<c:url value='/movie_list.jsp'/>" class="btn btn-outline-primary mt-2">View All Movies</a>
+            <c:forEach var="feature" items="${fn:split(features, '|')}" varStatus="status">
+                <c:set var="parts" value="${fn:split(feature, ',')}" />
+                <div class="col-md-4">
+                    <div class="card feature-card text-center">
+                        <div class="card-body p-4">
+                            <div class="display-1 mb-3">${parts[0]}</div>
+                            <h4 class="card-title mb-3">${parts[1]}</h4>
+                            <p class="card-text text-muted">${parts[2]}</p>
+                            
+                            <!-- URL Rewriting with c:url -->
+                            <c:url var="featureUrl" value="movie_list.jsp">
+                                <c:param name="feature" value="${status.index}"/>
+                            </c:url>
+                            <a href="${featureUrl}" class="btn btn-outline-primary mt-2">
+                                <c:choose>
+                                    <c:when test="${status.index == 0}">View All Movies</c:when>
+                                    <c:when test="${status.index == 1}">Start Rating</c:when>
+                                    <c:otherwise>Get Started</c:otherwise>
+                                </c:choose>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card feature-card text-center">
-                    <div class="card-body p-4">
-                        <div class="display-1 mb-3">⭐</div>
-                        <h4 class="card-title mb-3">Rate & Review</h4>
-                        <p class="card-text text-muted">Share your honest opinions and discover what others think</p>
-                        <a href="<c:url value='/movie_list.jsp'/>" class="btn btn-outline-primary mt-2">Start Rating</a>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="col-md-4">
-                <div class="card feature-card text-center">
-                    <div class="card-body p-4">
-                        <div class="display-1 mb-3">👥</div>
-                        <h4 class="card-title mb-3">Join Community</h4>
-                        <p class="card-text text-muted">Connect with fellow movie lovers and engage in discussions</p>
-                        <a href="<c:url value='/movie_list.jsp'/>" class="btn btn-outline-primary mt-2">Get Started</a>
+            </c:forEach>
+        </div>
+        
+        <!-- Session Info Display using JSTL -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Session Information</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li><strong>Session ID:</strong> 
+                                <code><c:out value="${pageContext.session.id}"/></code>
+                            </li>
+                            <li><strong>User:</strong> 
+                                <c:choose>
+                                    <c:when test="${not empty sessionScope.user}">
+                                        <span class="badge bg-success">
+                                            <c:out value="${sessionScope.username}"/>
+                                        </span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="badge bg-warning">Guest</span>
+                                    </c:otherwise>
+                                </c:choose>
+                            </li>
+                            <li><strong>Role:</strong> 
+                                <c:if test="${not empty sessionScope.role}">
+                                    <span class="badge bg-info">
+                                        <c:out value="${sessionScope.role}"/>
+                                    </span>
+                                </c:if>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -76,7 +123,9 @@
     <!-- Footer -->
     <div class="container mt-5 mb-4">
         <div class="text-center text-muted">
-            <p class="mb-0">© 2025 CineReview - Your Movie Companion</p>
+            <p class="mb-0">
+                © <fmt:formatDate value="<%= new java.util.Date() %>" pattern="yyyy"/> CineReview - Your Movie Companion
+            </p>
         </div>
     </div>
     
