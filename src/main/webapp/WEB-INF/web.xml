@@ -12,8 +12,13 @@
     <welcome-file>index.jsp</welcome-file>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
-    
-  <!-- Filter Declarations -->
+  
+  <!-- ========== FILTER DECLARATIONS ========== -->
+  <filter>
+    <filter-name>LoggingFilter</filter-name>
+    <filter-class>com.moviereview.filter.LoggingFilter</filter-class>
+  </filter>
+  
   <filter>
     <filter-name>AuthenticationFilter</filter-name>
     <filter-class>com.moviereview.filter.AuthenticationFilter</filter-class>
@@ -24,32 +29,81 @@
     <filter-class>com.moviereview.filter.AdminFilter</filter-class>
   </filter>
   
-  <!-- Filter Mappings -->
+  <filter>
+    <filter-name>ResponseModificationFilter</filter-name>
+    <filter-class>com.moviereview.filter.ResponseModificationFilter</filter-class>
+  </filter>
+  
+  <!-- ========== FILTER MAPPINGS ========== -->
+  <!-- LoggingFilter - Logs all requests -->
+  <filter-mapping>
+    <filter-name>LoggingFilter</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+  
+  <!-- AuthenticationFilter - Protects secured pages -->
   <filter-mapping>
     <filter-name>AuthenticationFilter</filter-name>
     <url-pattern>/home.jsp</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
     <url-pattern>/movie_list.jsp</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
+    <url-pattern>/movie_details.jsp</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
     <url-pattern>/MovieDetailsServlet</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
     <url-pattern>/ReviewServlet</url-pattern>
+  </filter-mapping>
+  
+  <!-- AdminFilter - Protects admin pages -->
+  <filter-mapping>
+    <filter-name>AdminFilter</filter-name>
+    <url-pattern>/admin_dashboard.jsp</url-pattern>
   </filter-mapping>
   
   <filter-mapping>
     <filter-name>AdminFilter</filter-name>
-    <url-pattern>/admin_dashboard.jsp</url-pattern>
     <url-pattern>/add_movie.jsp</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>AdminFilter</filter-name>
     <url-pattern>/edit_movie.jsp</url-pattern>
+  </filter-mapping>
+  
+  <filter-mapping>
+    <filter-name>AdminFilter</filter-name>
     <url-pattern>/MovieServlet</url-pattern>
   </filter-mapping>
   
-  <!-- Session Configuration -->
+  <!-- ResponseModificationFilter - Adds security headers -->
+  <filter-mapping>
+    <filter-name>ResponseModificationFilter</filter-name>
+    <url-pattern>*.jsp</url-pattern>
+  </filter-mapping>
+  
+  <!-- ========== SESSION CONFIGURATION ========== -->
   <session-config>
     <session-timeout>30</session-timeout>
     <cookie-config>
       <http-only>true</http-only>
+      <secure>false</secure>
     </cookie-config>
   </session-config>
   
-  <!-- Error Pages -->
+  <!-- ========== ERROR PAGES ========== -->
   <error-page>
     <error-code>404</error-code>
     <location>/index.jsp</location>
